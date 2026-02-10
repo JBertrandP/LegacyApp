@@ -2,19 +2,19 @@ import { LocalStorageTaskRepository } from "../storage/LocalStorageTaskRepositor
 import { LocalAuthAdapter } from "../auth/LocalAuthAdapter.js";
 import { TaskService } from "../../application/TaskService.js";
 
-// Inicialización
+
 const taskRepo = new LocalStorageTaskRepository();
 const authAdapter = new LocalAuthAdapter();
 const taskService = new TaskService(taskRepo);
 
 let currentUser = authAdapter.getCurrentUser();
 
-// Referencias DOM
+
 const loginSection = document.getElementById('login-section');
 const appSection = document.getElementById('app-section');
 const taskList = document.getElementById('task-list');
 
-// --- LÓGICA DE UI ---
+
 
 function renderApp() {
     if (currentUser) {
@@ -22,7 +22,7 @@ function renderApp() {
         appSection.style.display = 'block';
         document.getElementById('user-display').textContent = currentUser.username;
         renderTasks();
-        // Mostrar tab de tareas por defecto
+        
         window.showTab('tasks');
     } else {
         loginSection.style.display = 'block';
@@ -52,7 +52,7 @@ function renderTasks() {
     });
 }
 
-// --- FUNCIONES GLOBALES (Window) ---
+
 
 window.handleLogin = () => {
     const userIn = document.getElementById('username').value;
@@ -72,10 +72,10 @@ window.handleLogout = () => {
 };
 
 window.showTab = (tabName) => {
-    // 1. Ocultar todas las tabs
+    
     document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
     
-    // 2. Mostrar la seleccionada
+    
     const selected = document.getElementById(`tab-${tabName}`);
     if (selected) selected.style.display = 'block';
 };
@@ -90,7 +90,7 @@ window.deleteTask = (id) => {
     renderTasks();
 };
 
-// Event Listener para el Formulario de Tareas
+
 document.getElementById('task-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const title = document.getElementById('task-title').value;
@@ -104,5 +104,5 @@ document.getElementById('task-form')?.addEventListener('submit', (e) => {
     }
 });
 
-// Arrancar
+
 renderApp();
