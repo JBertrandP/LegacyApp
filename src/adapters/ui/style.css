@@ -1,18 +1,16 @@
-/* src/adapters/ui/style.css */
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-    /* Paleta P3 Reload */
     --p3-dark-blue: #0b1622;
     --p3-mid-blue: #002554;
-    --p3-cyan: #00eaff; /* El cian brillante de los menús */
+    --p3-cyan: #00eaff; 
     --p3-white: #ffffff;
     --p3-shadow: rgba(0, 0, 0, 0.7);
 }
 
 body {
     background: radial-gradient(circle at top right, #1a4c7e, var(--p3-dark-blue) 80%);
-    font-family: 'Roboto', sans-serif; /* Limpio y moderno */
+    font-family: 'Roboto', sans-serif; 
     color: var(--p3-white);
     margin: 0;
     min-height: 100vh;
@@ -22,7 +20,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Efecto de fondo tipo "Dark Hour" */
 body::before {
     content: "";
     position: absolute;
@@ -35,24 +32,25 @@ body::before {
     pointer-events: none;
 }
 
-/* Contenedor Principal "Angular" */
+
 #app-container {
     width: 100%;
     max-width: 500px;
     padding: 2rem;
     position: relative;
+    z-index: 10;
 }
 
-/* Títulos estilo P3 */
+
 h1 {
-    font-family: 'Anton', sans-serif; /* Letra gruesa e impactante */
+    font-family: 'Anton', sans-serif; 
     font-size: 3rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 5px;
     color: var(--p3-white);
     text-shadow: 3px 3px 0px var(--p3-cyan);
-    transform: skewX(-10deg); /* La inclinación clásica */
+    transform: skewX(-10deg); 
 }
 
 h2 {
@@ -63,7 +61,7 @@ h2 {
     display: inline-block;
 }
 
-/* Inputs transparentes y futuristas */
+
 input {
     width: 100%;
     background: rgba(0, 37, 84, 0.6);
@@ -82,7 +80,7 @@ input:focus {
     box-shadow: 0 0 15px var(--p3-cyan);
 }
 
-/* Botones "Shattered" (Inclinados) */
+
 button {
     background: var(--p3-white);
     color: var(--p3-dark-blue);
@@ -92,13 +90,13 @@ button {
     border: none;
     padding: 10px 30px;
     cursor: pointer;
-    transform: skewX(-20deg); /* Ángulo agresivo */
+    transform: skewX(-20deg); 
     transition: all 0.2s;
     box-shadow: 5px 5px 0px var(--p3-cyan);
     margin-right: 10px;
 }
 
-/* Texto dentro del botón derecho para contrarrestar la inclinación */
+
 button span {
     display: block;
     transform: skewX(20deg);
@@ -111,7 +109,7 @@ button:hover {
     box-shadow: 8px 8px 0px var(--p3-white);
 }
 
-/* Lista de Tareas */
+
 ul {
     list-style: none;
     padding: 0;
@@ -130,18 +128,18 @@ li {
 
 li:hover {
     background: rgba(0, 234, 255, 0.1);
-    transform: translateX(10px); /* Efecto de deslizamiento al hover */
+    transform: translateX(10px); 
     border-right-color: var(--p3-cyan);
 }
 
-/* Tareas completadas */
+
 li.completed span {
     text-decoration: line-through;
     color: #888;
 }
 
 .delete-btn {
-    background: #ff0055; /* Un toque de rojo para borrar */
+    background: #ff0055; 
     color: white;
     box-shadow: 3px 3px 0px #550011;
     font-size: 0.9rem;
