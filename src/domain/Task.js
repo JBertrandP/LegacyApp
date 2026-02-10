@@ -1,5 +1,3 @@
-// src/domain/Task.js
-
 export class Task {
     constructor(id, title, description, status = 'pending', createdBy) {
         if (!title) throw new Error("Task must have a title");
