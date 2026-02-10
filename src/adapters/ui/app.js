@@ -2,7 +2,6 @@ import { LocalStorageTaskRepository } from "../storage/LocalStorageTaskRepositor
 import { LocalAuthAdapter } from "../auth/LocalAuthAdapter.js";
 import { TaskService } from "../../application/TaskService.js";
 
-
 const taskRepo = new LocalStorageTaskRepository();
 const authAdapter = new LocalAuthAdapter();
 const taskService = new TaskService(taskRepo);
@@ -10,45 +9,22 @@ const taskService = new TaskService(taskRepo);
 let currentUser = authAdapter.getCurrentUser();
 
 
-const loginSection = document.getElementById('login-section');
-const appSection = document.getElementById('app-section');
-const taskList = document.getElementById('task-list');
-
-
-
-function renderApp() {
-    if (currentUser) {
-        loginSection.style.display = 'none';
-        appSection.style.display = 'block';
-        document.getElementById('user-display').textContent = currentUser.username;
-        renderTasks();
-        
-        window.showTab('tasks');
-    } else {
-        loginSection.style.display = 'block';
-        appSection.style.display = 'none';
-    }
-}
-
-
 function renderTasks(tasksToRender = taskService.getAllTasks()) {
-    const tbody = document.getElementById('task-list-body');
+    const tbody = document.getElementById('tasksTableBody');
     if (!tbody) return;
-    
     tbody.innerHTML = '';
     
     tasksToRender.forEach(task => {
         const tr = document.createElement('tr');
-        // IMPORTANTE: Verifica que los nombres (task.title, task.status, etc.) 
-        // coincidan exactamente con tu clase Task en Domain.
         tr.innerHTML = `
-            <td style="font-weight:bold">${task.title}</td>
+            <td style="font-size: 0.8rem; color: #888;">${task.id}</td>
+            <td style="font-weight:bold; color:var(--p3-cyan)">${task.title}</td>
             <td><span class="badge">${task.status}</span></td>
-            <td><span style="color:${task.priority === 'Crítica' ? '#ff0055' : 'inherit'}">${task.priority}</span></td>
-            <td>${task.dueDate || 'Sin fecha'}</td>
+            <td style="color:${task.priority === 'Crítica' ? '#ff0055' : 'white'}">${task.priority}</td>
+            <td>${task.dueDate && task.dueDate !== "" ? task.dueDate : 'Sin fecha'}</td>
             <td>
                 <button onclick="window.deleteTask('${task.id}')" class="delete-btn" style="padding:5px 10px;">
-                    <span>X</span>
+                    <span>ELIMINAR</span>
                 </button>
             </td>
         `;
@@ -57,42 +33,13 @@ function renderTasks(tasksToRender = taskService.getAllTasks()) {
 }
 
 
-document.getElementById('task-form')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    
-    const taskData = {
-        title: document.getElementById('task-title').value,
-        description: document.getElementById('task-desc').value,
-        status: document.getElementById('task-status').value,
-        priority: document.getElementById('task-priority').value,
-        dueDate: document.getElementById('task-due-date').value
-    };
-    
-    taskService.createTask(taskData, currentUser.username);
-    
-    
-    e.target.reset();
-    renderTasks();
-});
-
-
-document.getElementById('search-input')?.addEventListener('input', (e) => {
-    const query = e.target.value;
-    const filtered = taskService.searchTasks(query);
-    renderTasks(filtered); 
-});
-
-
 window.handleLogin = () => {
     const userIn = document.getElementById('username').value;
     const passIn = document.getElementById('password').value;
     try {
         currentUser = authAdapter.login(userIn, passIn);
         renderApp();
-    } catch (e) {
-        alert("Acceso Denegado: " + e.message);
-    }
+    } catch (e) { alert("Error: " + e.message); }
 };
 
 window.handleLogout = () => {
@@ -102,17 +49,9 @@ window.handleLogout = () => {
 };
 
 window.showTab = (tabName) => {
-    
     document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-    
-    
     const selected = document.getElementById(`tab-${tabName}`);
     if (selected) selected.style.display = 'block';
-};
-
-window.toggleTask = (id) => {
-    taskService.toggleTaskStatus(id);
-    renderTasks();
 };
 
 window.deleteTask = (id) => {
@@ -120,52 +59,47 @@ window.deleteTask = (id) => {
     renderTasks();
 };
 
-
+-
 document.getElementById('task-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     
-    const title = document.getElementById('task-title').value.trim();
-    const desc = document.getElementById('task-desc').value.trim();
-
-    if (!title) {
-        alert("La tarea debe tener un titulo.");
+    const titleValue = document.getElementById('taskTitle').value.trim();
+    
+    
+    if (!titleValue) {
+        alert("Por favor, añada un título a la tarea.");
         return;
     }
 
-    const taskData = {
-        title: title,
-        description: desc,
-        status: document.getElementById('task-status').value,
-        priority: document.getElementById('task-priority').value,
-        dueDate: document.getElementById('task-due-date').value
+    const data = {
+        title: titleValue,
+        description: document.getElementById('taskDescription').value,
+        status: document.getElementById('taskStatus').value,
+        priority: document.getElementById('taskPriority').value,
+        dueDate: document.getElementById('taskDueDate').value
     };
     
-    taskService.createTask(taskData, currentUser.username);
-    
+    taskService.createTask(data, currentUser.username);
     e.target.reset();
     renderTasks();
 });
 
 document.getElementById('search-input')?.addEventListener('input', (e) => {
-    const query = e.target.value;
-    const filteredTasks = taskService.searchTasks(query);
-    renderFilteredTasks(filteredTasks);
+    const filtered = taskService.searchTasks(e.target.value);
+    renderTasks(filtered);
 });
 
-function renderFilteredTasks(tasks) {
-    taskList.innerHTML = '';
-    tasks.forEach(task => {
-        const li = document.createElement('li');
-        li.className = task.status === 'completed' ? 'completed' : '';
-        li.innerHTML = `
-            <span>${task.title} <small style="color: var(--p3-cyan);">(${task.createdBy})</small></span>
-            <div>
-                <button onclick="window.toggleTask('${task.id}')"><span>${task.status === 'completed' ? 'Retomar' : 'Completar'}</span></button>
-                <button onclick="window.deleteTask('${task.id}')" class="delete-btn"><span>Eliminar</span></button>
-            </div>
-        `;
-        taskList.appendChild(li);
-    });
+function renderApp() {
+    if (currentUser) {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('app-section').style.display = 'block';
+        document.getElementById('user-display').textContent = currentUser.username;
+        renderTasks();
+        window.showTab('tasks');
+    } else {
+        document.getElementById('login-section').style.display = 'block';
+        document.getElementById('app-section').style.display = 'none';
+    }
 }
 
 renderApp();

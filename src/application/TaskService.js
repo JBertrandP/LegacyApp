@@ -1,4 +1,3 @@
-// src/application/TaskService.js
 import { Task } from "../domain/Task.js";
 
 export class TaskService {
@@ -10,9 +9,8 @@ export class TaskService {
         return this.repository.getAll();
     }
 
-    
     createTask(data, username) {
-        const id = Math.floor(Math.random() * 10000).toString(); 
+        const id = Math.floor(Math.random() * 10000).toString();
         
         
         const newTask = new Task(
@@ -21,9 +19,9 @@ export class TaskService {
             data.description,
             data.status,
             data.priority,
-            "General",       // project 
+            "General",       // project
             username,        // assignedTo
-            data.dueDate,
+            data.dueDate,    // fecha
             0,               // hours
             username         // createdBy
         );
@@ -46,7 +44,6 @@ export class TaskService {
     deleteTask(id) {
         this.repository.delete(id);
     }
-
     toggleTaskStatus(id) {
         const tasks = this.repository.getAll();
         const taskData = tasks.find(t => t.id === id);
