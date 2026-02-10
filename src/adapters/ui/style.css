@@ -208,3 +208,12 @@ select {
     font-size: 0.8rem;
     transform: skewX(-10deg);
 }
+
+
+.p3-table tr {
+    transition: all 0.3s ease;
+}
+
+.p3-table tr:hover {
+    background: rgba(0, 234, 255, 0.05);
+}

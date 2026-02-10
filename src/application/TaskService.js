@@ -12,13 +12,13 @@ export class TaskService {
     createTask(data, username) {
         const id = Math.floor(Math.random() * 10000).toString();
         
-        
+        // Pasamos los 10 parámetros exactos al constructor
         const newTask = new Task(
             id,
             data.title,
             data.description,
-            data.status,
-            data.priority,
+            data.status || 'Pendiente',
+            data.priority || 'Media',
             "General",       // project
             username,        // assignedTo
             data.dueDate,    // fecha
@@ -30,6 +30,7 @@ export class TaskService {
         return newTask;
     }
 
+    // Una sola versión limpia de búsqueda
     searchTasks(query) {
         const allTasks = this.repository.getAll();
         if (!query) return allTasks;
@@ -44,35 +45,31 @@ export class TaskService {
     deleteTask(id) {
         this.repository.delete(id);
     }
+
     toggleTaskStatus(id) {
         const tasks = this.repository.getAll();
-        const taskData = tasks.find(t => t.id === id);
+        const t = tasks.find(item => item.id === id);
         
-        if (taskData) {
+        if (t) {
+            // Reconstruimos la entidad con los 10 parámetros para no perder datos
             const task = new Task(
-                taskData.id, 
-                taskData.title, 
-                taskData.description, 
-                taskData.status, 
-                taskData.createdBy
+                t.id, 
+                t.title, 
+                t.description, 
+                t.status, 
+                t.priority,
+                t.project,
+                t.assignedTo,
+                t.dueDate,
+                t.hours,
+                t.createdBy
             );
+
+            // Lógica de toggle: Si está completada pasa a Pendiente y viceversa
+            task.status = (task.status === 'Completada') ? 'Pendiente' : 'Completada';
             
-            if (task.isCompleted()) {
-                task.status = 'pending'; 
-            } else {
-                task.complete();
-            }
-            
+            // Actualizamos en el repositorio
             this.repository.update(task);
         }
-    }
-    searchTasks(query) {
-        const allTasks = this.repository.getAll();
-        if (!query) return allTasks;
-        
-        return allTasks.filter(task => 
-            task.title.toLowerCase().includes(query.toLowerCase()) || 
-            task.description.toLowerCase().includes(query.toLowerCase())
-        );
     }
 }
