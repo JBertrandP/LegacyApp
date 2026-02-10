@@ -8,7 +8,7 @@
 </head>
 <body>
     <div id="app-container">
-        <h1>Task Manager Hexagonal</h1>
+        <h1>Task Manager</h1>
         
         <div id="login-section" class="panel">
             <h2>Acceso.</h2>
@@ -46,12 +46,15 @@
                         <input type="text" id="task-desc" placeholder="Descripción de la Misión" required>
                     </div>
                     <div class="button-group">
-                        <button type="submit"><span>Invocar Tarea</span></button>
+                        <button type="submit"><span>Buscar Tarea</span></button>
                     </div>
                 </form>
 
                 <div class="table-section">
-                    <h3>Misiones Activas</h3>
+                    <h3>Tareas Activas</h3>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <input type="text" id="search-input" placeholder="Buscar tarea por nombre o descripción...">
+                    </div>
                     <ul id="task-list">
                         </ul>
                 </div>
@@ -59,7 +62,7 @@
 
             <div id="tab-projects" class="tab-content" style="display: none;">
                 <h2>Proyectos</h2>
-                <p>Módulo en construcción...</p>
+                <p>Modulo en construccion...</p>
             </div>
 
             <div id="tab-reports" class="tab-content" style="display: none;">
