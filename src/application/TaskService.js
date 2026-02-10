@@ -9,13 +9,23 @@ export class TaskService {
         return this.repository.getAll();
     }
 
-    createTask(title, description, username) {
+    createTask(taskData, username) {
         const id = Date.now().toString();
-        const newTask = new Task(id, title, description, 'pending', username);
+        const newTask = new Task(
+            id,
+            taskData.title,
+            taskData.description,
+            taskData.status,
+            taskData.priority,
+            taskData.project,
+            taskData.assignedTo,
+            taskData.dueDate,
+            taskData.hours,
+            username
+        );
         this.repository.save(newTask);
         return newTask;
     }
-
     deleteTask(id) {
         this.repository.delete(id);
     }
@@ -41,5 +51,14 @@ export class TaskService {
             
             this.repository.update(task);
         }
+    }
+    searchTasks(query) {
+        const allTasks = this.repository.getAll();
+        if (!query) return allTasks;
+        
+        return allTasks.filter(task => 
+            task.title.toLowerCase().includes(query.toLowerCase()) || 
+            task.description.toLowerCase().includes(query.toLowerCase())
+        );
     }
 }

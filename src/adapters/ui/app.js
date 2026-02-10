@@ -30,28 +30,27 @@ function renderApp() {
     }
 }
 
-function renderTasks() {
-    taskList.innerHTML = '';
-    const tasks = taskService.getAllTasks();
+function renderTasks(tasksToRender = taskService.getAllTasks()) {
+    const tbody = document.getElementById('task-list-body');
+    tbody.innerHTML = '';
     
-    tasks.forEach(task => {
-        const li = document.createElement('li');
-        li.className = task.status === 'completed' ? 'completed' : '';
-        li.innerHTML = `
-            <span>${task.title} <small style="color: var(--p3-cyan);">(${task.createdBy})</small></span>
-            <div>
-                <button onclick="window.toggleTask('${task.id}')">
-                    <span>${task.status === 'completed' ? 'Retomar' : 'Completar'}</span>
+    tasksToRender.forEach(task => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${task.id.slice(-4)}</td>
+            <td style="font-weight:bold">${task.title}</td>
+            <td><span class="badge">${task.status}</span></td>
+            <td style="color:${task.priority === 'Crítica' ? '#ff0055' : 'white'}">${task.priority}</td>
+            <td>${task.dueDate || 'N/A'}</td>
+            <td>
+                <button onclick="window.deleteTask('${task.id}')" class="delete-btn" style="padding:5px 10px; font-size:0.7rem;">
+                    <span>X</span>
                 </button>
-                <button onclick="window.deleteTask('${task.id}')" class="delete-btn">
-                    <span>Eliminar</span>
-                </button>
-            </div>
+            </td>
         `;
-        taskList.appendChild(li);
+        tbody.appendChild(tr);
     });
 }
-
 
 
 window.handleLogin = () => {
@@ -104,5 +103,26 @@ document.getElementById('task-form')?.addEventListener('submit', (e) => {
     }
 });
 
+document.getElementById('search-input')?.addEventListener('input', (e) => {
+    const query = e.target.value;
+    const filteredTasks = taskService.searchTasks(query);
+    renderFilteredTasks(filteredTasks);
+});
+
+function renderFilteredTasks(tasks) {
+    taskList.innerHTML = '';
+    tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.className = task.status === 'completed' ? 'completed' : '';
+        li.innerHTML = `
+            <span>${task.title} <small style="color: var(--p3-cyan);">(${task.createdBy})</small></span>
+            <div>
+                <button onclick="window.toggleTask('${task.id}')"><span>${task.status === 'completed' ? 'Retomar' : 'Completar'}</span></button>
+                <button onclick="window.deleteTask('${task.id}')" class="delete-btn"><span>Eliminar</span></button>
+            </div>
+        `;
+        taskList.appendChild(li);
+    });
+}
 
 renderApp();

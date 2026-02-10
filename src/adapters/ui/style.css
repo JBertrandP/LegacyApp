@@ -150,3 +150,38 @@ li.completed span {
     background: #ff4488;
     box-shadow: 5px 5px 0px white;
 }
+
+.p3-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0, 37, 84, 0.4);
+    transform: skewX(-2deg);
+}
+
+.p3-table th {
+    background: var(--p3-cyan);
+    color: var(--p3-dark-blue);
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.p3-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(0, 234, 255, 0.2);
+    text-align: center;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+select {
+    flex: 1;
+    background: var(--p3-mid-blue);
+    color: white;
+    border: none;
+    border-left: 3px solid var(--p3-cyan);
+    padding: 10px;
+}
