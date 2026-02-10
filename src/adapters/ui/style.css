@@ -185,3 +185,26 @@ select {
     border-left: 3px solid var(--p3-cyan);
     padding: 10px;
 }
+
+
+.p3-textarea {
+    width: 100%;
+    background: rgba(0, 37, 84, 0.6);
+    border: none;
+    border-left: 4px solid var(--p3-cyan);
+    padding: 15px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+    resize: none;
+    margin-bottom: 10px;
+}
+
+.badge {
+    padding: 4px 8px;
+    background: var(--p3-cyan);
+    color: var(--p3-dark-blue);
+    font-weight: bold;
+    font-size: 0.8rem;
+    transform: skewX(-10deg);
+}

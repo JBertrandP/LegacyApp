@@ -36,36 +36,37 @@
             </div>
 
             <div id="tab-tasks" class="tab-content">
-                <h2 style="transform: skewX(-10deg);">Gestión de Tareas</h2>
+                <h2 style="transform: skewX(-10deg);">Gestión de Misiones</h2>
                 
                 <div class="form-group" style="margin-bottom: 2rem;">
-                    <input type="text" id="search-input" placeholder="Filtrar tareas en tiempo real...">
+                    <input type="text" id="search-input" placeholder="🔍 Filtrar misiones por título o descripción...">
                 </div>
             
                 <form id="task-form" class="p3-form-grid">
                     <div class="form-row">
-                        <input type="text" id="task-title" placeholder="Título" required>
-                        <textarea id="task-desc" placeholder="Descripción" rows="2"></textarea>
+                        <input type="text" id="task-title" placeholder="Título de la Misión" required>
+                    </div>
+                    <div class="form-row">
+                        <textarea id="task-desc" class="p3-textarea" placeholder="Descripción detallada..." rows="3"></textarea>
                     </div>
                     <div class="form-row">
                         <select id="task-status">
-                            <option>Pendiente</option>
-                            <option>En Progreso</option>
-                            <option>Completada</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En Progreso">En Progreso</option>
+                            <option value="Completada">Completada</option>
                         </select>
                         <select id="task-priority">
-                            <option>Baja</option>
-                            <option>Media</option>
-                            <option>Alta</option>
-                            <option>Crítica</option>
+                            <option value="Baja">Baja</option>
+                            <option value="Media">Media</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Crítica">Crítica</option>
                         </select>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="task-project" placeholder="Proyecto">
                         <input type="date" id="task-due-date">
                     </div>
                     <button type="submit" style="width: 100%; margin-top: 10px;">
-                        <span>Buscar Tarea</span>
+                        <span>INVOCAR MISIÓN</span>
                     </button>
                 </form>
             
@@ -73,11 +74,9 @@
                     <table class="p3-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Título</th>
                                 <th>Estado</th>
                                 <th>Prioridad</th>
-                                <th>Vencimiento</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -86,7 +85,6 @@
                     </table>
                 </div>
             </div>
-
                 <div class="table-section">
                     <h3>Tareas Activas</h3>
                     <div class="form-group" style="margin-bottom: 1rem;">
