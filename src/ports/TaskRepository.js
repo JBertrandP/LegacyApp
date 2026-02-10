@@ -1,3 +1,5 @@
+/*Interface (Port) for Task storage operations.
+Adapters must implement this contract to save data.*/
 export class TaskRepository {
     save(task) {
         throw new Error("Method 'save' must be implemented");
