@@ -1,54 +1,27 @@
-# Task Manager Simple - Versión JavaScript
+# Hexagonal Task Manager
 
-Sistema de gestión de tareas simplificado en JavaScript plano, HTML básico y CSS mínimo. Usa localStorage como base de datos, sin necesidad de servidor ni configuración.
+De una aplicacion monolitica Legacy a una Arquitectura Hexagonal (Ports & Adapters).
 
-## Características
+## Arquitectura
+El proyecto sigue la separacion de responsabilidades:
 
-- **Sin dependencias**: Solo HTML, CSS y JavaScript puro
-- **Sin servidor**: Funciona completamente en el navegador
-- **Almacenamiento local**: Usa localStorage del navegador
-- **Apariencia antigua**: Diseño minimalista estilo legacy
-- **Funcionalidades completas**: Todas las características del sistema original
+- **Domain:** Pura logica de negocio (`Task`, `User`). No depende de nada.
+- **Ports:** Interfaces que definen "contratos" (`TaskRepository`).
+- **Application:** Casos de uso y orquestacion (`TaskService`).
+- **Adapters:** Implementaciones concretas (UI Web, LocalStorage).
 
-## Funcionalidades
+## Tecnologias
+- **Frontend:** Vanilla JavaScript
+- **State Management:** Hexagonal Service Pattern
+- **Persistencia:** LocalStorage (Reemplazable por Supabase/Firebase)
+- **Hosting:** Vercel
 
-1. **Autenticación**: Login básico con múltiples usuarios
-2. **CRUD de Tareas**: Crear, leer, actualizar y eliminar tareas
-3. **CRUD de Proyectos**: Gestión de proyectos
-4. **Sistema de Comentarios**: Comentarios en tareas
-5. **Historial y Auditoría**: Registro de cambios
-6. **Notificaciones**: Sistema de notificaciones por usuario
-7. **Búsqueda Avanzada**: Búsqueda con múltiples filtros
-8. **Generación de Reportes**: Reportes de tareas, proyectos y usuarios
-9. **Exportación CSV**: Exportar datos a CSV
+## Instalacion Local
+1. Clonar el repositorio.
+2. Abrir `index.html` en un servidor local.
+   *OJO, se requiere un servidor local debido al uso de ES Modules.*
 
-## Uso
-
-1. Abre `index.html` en cualquier navegador moderno
-2. Usa las credenciales por defecto:
-   - Usuario: `admin`
-   - Contraseña: `admin`
-3. Explora las diferentes pestañas para usar las funcionalidades
-
-## Estructura
-
-```
-TaskManagerSimple/
-├── index.html    # Interfaz HTML básica
-├── style.css     # Estilos CSS mínimos (apariencia antigua)
-├── app.js        # Lógica JavaScript con localStorage
-└── README.md     # Este archivo
-```
-
-## Datos por Defecto
-
-El sistema se inicializa con:
-- **Usuarios**: admin/admin, user1/user1, user2/user2
-- **Proyectos**: Proyecto Demo, Proyecto Alpha, Proyecto Beta
-
-## Notas
-
-- Todos los datos se guardan en localStorage del navegador
-- Los datos persisten entre sesiones
-- Para limpiar los datos, usa la consola del navegador: `localStorage.clear()`
-- Compatible con cualquier navegador moderno (Chrome, Firefox, Safari, Edge)
+## El Proyecto ya tiene:
+- Migracion de Monolito a Hexagonal
+- Implementacion de Repositorios
+- Despliegue en Vercel
