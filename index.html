@@ -11,7 +11,7 @@
         <h1>Task Manager</h1>
         
         <div id="login-section" class="panel">
-            <h2>Acceso S.E.E.S.</h2>
+            <h2>Acceso al Sistema</h2>
             <div class="form-group">
                 <label>Usuario:</label>
                 <input type="text" id="username" value="admin">
@@ -36,49 +36,60 @@
             </div>
 
             <div id="tab-tasks" class="tab-content">
-                <h2 style="transform: skewX(-10deg);">Gestión de Misiones</h2>
+                <h2>Gestión de Tareas</h2>
                 
-                <form id="task-form" class="p3-form-grid">
-                    <div class="form-row">
-                        <input type="text" id="task-title" placeholder="Título de la Tarea" required>
-                    </div>
-                    <div class="form-row">
-                        <textarea id="task-desc" class="p3-textarea" placeholder="Descripción detallada..." rows="3"></textarea>
-                    </div>
-                    <div class="form-row">
-                        <select id="task-status">
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="En Progreso">En Progreso</option>
-                            <option value="Completada">Completada</option>
-                        </select>
-                        <select id="task-priority">
-                            <option value="Baja">Baja</option>
-                            <option value="Media">Media</option>
-                            <option value="Alta">Alta</option>
-                            <option value="Crítica">Crítica</option>
-                        </select>
-                    </div>
-                    <div class="form-row">
-                        <label style="font-size: 0.8rem; display: block; margin-bottom: 5px;">Fecha Límite:</label>
-                        <input type="date" id="task-due-date">
-                    </div>
-                    <button type="submit" style="width: 100%; margin-top: 10px;">
-                        <span>INVOCAR MISIÓN</span>
-                    </button>
-                </form>
+                <div class="form-section">
+                    <h3>Nueva Tarea</h3>
+                    <form id="task-form" class="p3-form-grid">
+                        <div class="form-group">
+                            <label>Título:</label>
+                            <input type="text" id="taskTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción:</label>
+                            <textarea id="taskDescription" class="p3-textarea" rows="3"></textarea>
+                        </div>
+                        <div class="form-row" style="display:flex; gap:10px; margin-bottom:10px;">
+                            <div style="flex:1">
+                                <label>Estado:</label>
+                                <select id="taskStatus">
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="En Progreso">En Progreso</option>
+                                    <option value="Completada">Completada</option>
+                                </select>
+                            </div>
+                            <div style="flex:1">
+                                <label>Prioridad:</label>
+                                <select id="taskPriority">
+                                    <option value="Baja">Baja</option>
+                                    <option value="Media">Media</option>
+                                    <option value="Alta">Alta</option>
+                                    <option value="Crítica">Crítica</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha Vencimiento:</label>
+                            <input type="date" id="taskDueDate">
+                        </div>
+                        <button type="submit" style="width: 100%; margin-top: 10px;">
+                            <span>Agregar Tarea</span>
+                        </button>
+                    </form>
+                </div>
 
                 <hr style="border: 1px solid var(--p3-mid-blue); margin: 2rem 0;">
 
                 <div class="table-section">
-                    <h3>Misiones Activas</h3>
+                    <h3>Lista de Tareas</h3>
                     <div class="form-group" style="margin-bottom: 1rem;">
-                        <input type="text" id="search-input" placeholder="🔍 Filtrar por nombre o descripción...">
+                        <input type="text" id="search-input" placeholder="🔍 Buscar por nombre o descripción...">
                     </div>
-                    
                     <div style="overflow-x: auto;">
                         <table class="p3-table">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Título</th>
                                     <th>Estado</th>
                                     <th>Prioridad</th>
@@ -86,18 +97,19 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="task-list-body">
-                                </tbody>
+                            <tbody id="tasksTableBody"></tbody>
                         </table>
                     </div>
                 </div>
-            </div> <div id="tab-projects" class="tab-content" style="display: none;">
+            </div>
+
+            <div id="tab-projects" class="tab-content" style="display: none;">
                 <h2>Proyectos</h2>
                 <p>Módulo en construcción...</p>
             </div>
 
             <div id="tab-reports" class="tab-content" style="display: none;">
-                <h2>Reportes del Sistema</h2>
+                <h2>Reportes</h2>
                 <p>Módulo en construcción...</p>
             </div>
         </div>

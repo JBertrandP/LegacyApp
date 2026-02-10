@@ -11,9 +11,22 @@ export class LocalStorageTaskRepository extends TaskRepository {
         const data = localStorage.getItem(this.STORAGE_KEY);
         if (!data) return [];
         
-        return JSON.parse(data).map(item => 
-            new Task(item.id, item.title, item.description, item.status, item.createdBy)
-        );
+        const rawTasks = JSON.parse(data);
+        
+        return rawTasks.map(t => {
+            return new Task(
+                t.id,
+                t.title,
+                t.description,
+                t.status,
+                t.priority,
+                t.project,
+                t.assignedTo,
+                t.dueDate,
+                t.hours,
+                t.createdBy
+            );
+        });
     }
 
     save(task) {
