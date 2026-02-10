@@ -1,192 +1,154 @@
-/* CSS básico con apariencia antigua */
+/* src/adapters/ui/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+    /* Paleta P3 Reload */
+    --p3-dark-blue: #0b1622;
+    --p3-mid-blue: #002554;
+    --p3-cyan: #00eaff; /* El cian brillante de los menús */
+    --p3-white: #ffffff;
+    --p3-shadow: rgba(0, 0, 0, 0.7);
+}
+
 body {
-    font-family: "Courier New", monospace;
-    font-size: 12px;
-    margin: 10px;
-    background-color: #c0c0c0;
-    color: #000;
+    background: radial-gradient(circle at top right, #1a4c7e, var(--p3-dark-blue) 80%);
+    font-family: 'Roboto', sans-serif; /* Limpio y moderno */
+    color: var(--p3-white);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #fff;
-    border: 2px solid #000;
-    padding: 10px;
+/* Efecto de fondo tipo "Dark Hour" */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 234, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 234, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -1;
+    pointer-events: none;
 }
 
+/* Contenedor Principal "Angular" */
+#app-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    position: relative;
+}
+
+/* Títulos estilo P3 */
 h1 {
-    font-size: 18px;
-    margin: 5px 0;
-    text-align: center;
-    border-bottom: 2px solid #000;
-    padding-bottom: 5px;
+    font-family: 'Anton', sans-serif; /* Letra gruesa e impactante */
+    font-size: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    color: var(--p3-white);
+    text-shadow: 3px 3px 0px var(--p3-cyan);
+    transform: skewX(-10deg); /* La inclinación clásica */
 }
 
 h2 {
-    font-size: 14px;
-    margin: 10px 0 5px 0;
-    border-bottom: 1px solid #000;
-}
-
-h3 {
-    font-size: 12px;
-    margin: 5px 0;
-}
-
-.panel {
-    margin: 10px 0;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px;
-    background-color: #e0e0e0;
-    border: 1px solid #000;
-    margin-bottom: 10px;
-}
-
-.tabs {
-    display: flex;
-    border-bottom: 2px solid #000;
-    margin-bottom: 10px;
-}
-
-.tab-button {
-    padding: 5px 10px;
-    margin-right: 2px;
-    background-color: #d0d0d0;
-    border: 1px solid #000;
-    border-bottom: none;
-    cursor: pointer;
-    font-size: 11px;
-}
-
-.tab-button:hover {
-    background-color: #e0e0e0;
-}
-
-.tab-button.active {
-    background-color: #fff;
-    font-weight: bold;
-}
-
-.tab-content {
-    display: none;
-    padding: 10px;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-.form-section {
-    border: 1px solid #000;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #f5f5f5;
-}
-
-.form-group {
-    margin-bottom: 8px;
-}
-
-.form-group label {
+    font-style: italic;
+    border-bottom: 2px solid var(--p3-cyan);
+    padding-bottom: 5px;
+    margin-bottom: 20px;
     display: inline-block;
-    width: 120px;
-    font-weight: bold;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 300px;
-    padding: 2px;
-    border: 1px solid #000;
-    font-family: "Courier New", monospace;
-    font-size: 11px;
+/* Inputs transparentes y futuristas */
+input {
+    width: 100%;
+    background: rgba(0, 37, 84, 0.6);
+    border: none;
+    border-left: 4px solid var(--p3-cyan);
+    padding: 15px;
+    margin-bottom: 15px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
 }
 
-.form-group textarea {
-    width: 400px;
+input:focus {
+    background: rgba(0, 234, 255, 0.1);
+    box-shadow: 0 0 15px var(--p3-cyan);
 }
 
-.button-group {
-    margin-top: 10px;
-}
-
+/* Botones "Shattered" (Inclinados) */
 button {
-    padding: 5px 10px;
-    margin-right: 5px;
-    background-color: #d0d0d0;
-    border: 1px solid #000;
+    background: var(--p3-white);
+    color: var(--p3-dark-blue);
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    border: none;
+    padding: 10px 30px;
     cursor: pointer;
-    font-size: 11px;
-    font-family: "Courier New", monospace;
+    transform: skewX(-20deg); /* Ángulo agresivo */
+    transition: all 0.2s;
+    box-shadow: 5px 5px 0px var(--p3-cyan);
+    margin-right: 10px;
+}
+
+/* Texto dentro del botón derecho para contrarrestar la inclinación */
+button span {
+    display: block;
+    transform: skewX(20deg);
 }
 
 button:hover {
-    background-color: #e0e0e0;
+    background: var(--p3-cyan);
+    color: var(--p3-dark-blue);
+    transform: skewX(-20deg) translate(-2px, -2px);
+    box-shadow: 8px 8px 0px var(--p3-white);
 }
 
-button:active {
-    background-color: #c0c0c0;
+/* Lista de Tareas */
+ul {
+    list-style: none;
+    padding: 0;
 }
 
-.table-section {
-    margin-top: 10px;
-    border: 1px solid #000;
-    padding: 5px;
+li {
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-right: 4px solid var(--p3-white);
+    transition: transform 0.2s;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 11px;
+li:hover {
+    background: rgba(0, 234, 255, 0.1);
+    transform: translateX(10px); /* Efecto de deslizamiento al hover */
+    border-right-color: var(--p3-cyan);
 }
 
-table th,
-table td {
-    border: 1px solid #000;
-    padding: 3px 5px;
-    text-align: left;
+/* Tareas completadas */
+li.completed span {
+    text-decoration: line-through;
+    color: #888;
 }
 
-table th {
-    background-color: #d0d0d0;
-    font-weight: bold;
+.delete-btn {
+    background: #ff0055; /* Un toque de rojo para borrar */
+    color: white;
+    box-shadow: 3px 3px 0px #550011;
+    font-size: 0.9rem;
+    padding: 5px 15px;
 }
 
-table tr:nth-child(even) {
-    background-color: #f5f5f5;
-}
-
-table tr:hover {
-    background-color: #e0e0e0;
-    cursor: pointer;
-}
-
-.text-area-section {
-    margin-top: 10px;
-    border: 1px solid #000;
-    padding: 5px;
-}
-
-.text-area-section textarea {
-    width: 100%;
-    border: 1px solid #000;
-    padding: 5px;
-    font-family: "Courier New", monospace;
-    font-size: 11px;
-    background-color: #fff;
-}
-
-.stats {
-    margin-top: 10px;
-    padding: 5px;
-    background-color: #e0e0e0;
-    border: 1px solid #000;
-    font-size: 11px;
+.delete-btn:hover {
+    background: #ff4488;
+    box-shadow: 5px 5px 0px white;
 }
