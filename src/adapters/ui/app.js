@@ -30,20 +30,24 @@ function renderApp() {
     }
 }
 
+
 function renderTasks(tasksToRender = taskService.getAllTasks()) {
     const tbody = document.getElementById('task-list-body');
+    if (!tbody) return;
+    
     tbody.innerHTML = '';
     
     tasksToRender.forEach(task => {
         const tr = document.createElement('tr');
+        // IMPORTANTE: Verifica que los nombres (task.title, task.status, etc.) 
+        // coincidan exactamente con tu clase Task en Domain.
         tr.innerHTML = `
-            <td>${task.id.slice(-4)}</td>
             <td style="font-weight:bold">${task.title}</td>
             <td><span class="badge">${task.status}</span></td>
-            <td style="color:${task.priority === 'Crítica' ? '#ff0055' : 'white'}">${task.priority}</td>
-            <td>${task.dueDate || 'N/A'}</td>
+            <td><span style="color:${task.priority === 'Crítica' ? '#ff0055' : 'inherit'}">${task.priority}</span></td>
+            <td>${task.dueDate || 'Sin fecha'}</td>
             <td>
-                <button onclick="window.deleteTask('${task.id}')" class="delete-btn" style="padding:5px 10px; font-size:0.7rem;">
+                <button onclick="window.deleteTask('${task.id}')" class="delete-btn" style="padding:5px 10px;">
                     <span>X</span>
                 </button>
             </td>
@@ -51,6 +55,33 @@ function renderTasks(tasksToRender = taskService.getAllTasks()) {
         tbody.appendChild(tr);
     });
 }
+
+
+document.getElementById('task-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    
+    const taskData = {
+        title: document.getElementById('task-title').value,
+        description: document.getElementById('task-desc').value,
+        status: document.getElementById('task-status').value,
+        priority: document.getElementById('task-priority').value,
+        dueDate: document.getElementById('task-due-date').value
+    };
+    
+    taskService.createTask(taskData, currentUser.username);
+    
+    
+    e.target.reset();
+    renderTasks();
+});
+
+
+document.getElementById('search-input')?.addEventListener('input', (e) => {
+    const query = e.target.value;
+    const filtered = taskService.searchTasks(query);
+    renderTasks(filtered); 
+});
 
 
 window.handleLogin = () => {
@@ -92,15 +123,27 @@ window.deleteTask = (id) => {
 
 document.getElementById('task-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const title = document.getElementById('task-title').value;
-    const desc = document.getElementById('task-desc').value;
     
-    if(title && desc) {
-        taskService.createTask(title, desc, currentUser.username);
-        document.getElementById('task-title').value = '';
-        document.getElementById('task-desc').value = '';
-        renderTasks();
+    const title = document.getElementById('task-title').value.trim();
+    const desc = document.getElementById('task-desc').value.trim();
+
+    if (!title) {
+        alert("La tarea debe tener un titulo.");
+        return;
     }
+
+    const taskData = {
+        title: title,
+        description: desc,
+        status: document.getElementById('task-status').value,
+        priority: document.getElementById('task-priority').value,
+        dueDate: document.getElementById('task-due-date').value
+    };
+    
+    taskService.createTask(taskData, currentUser.username);
+    
+    e.target.reset();
+    renderTasks();
 });
 
 document.getElementById('search-input')?.addEventListener('input', (e) => {

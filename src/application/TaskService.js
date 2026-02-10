@@ -1,3 +1,4 @@
+// src/application/TaskService.js
 import { Task } from "../domain/Task.js";
 
 export class TaskService {
@@ -9,23 +10,39 @@ export class TaskService {
         return this.repository.getAll();
     }
 
-    createTask(taskData, username) {
-        const id = Date.now().toString();
+    
+    createTask(data, username) {
+        const id = Math.floor(Math.random() * 10000).toString(); 
+        
+        
         const newTask = new Task(
             id,
-            taskData.title,
-            taskData.description,
-            taskData.status,
-            taskData.priority,
-            taskData.project,
-            taskData.assignedTo,
-            taskData.dueDate,
-            taskData.hours,
-            username
+            data.title,
+            data.description,
+            data.status,
+            data.priority,
+            "General",       // project 
+            username,        // assignedTo
+            data.dueDate,
+            0,               // hours
+            username         // createdBy
         );
+
         this.repository.save(newTask);
         return newTask;
     }
+
+    searchTasks(query) {
+        const allTasks = this.repository.getAll();
+        if (!query) return allTasks;
+        
+        const q = query.toLowerCase();
+        return allTasks.filter(t => 
+            (t.title && t.title.toLowerCase().includes(q)) || 
+            (t.description && t.description.toLowerCase().includes(q))
+        );
+    }
+
     deleteTask(id) {
         this.repository.delete(id);
     }

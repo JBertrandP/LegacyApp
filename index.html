@@ -11,7 +11,7 @@
         <h1>Task Manager</h1>
         
         <div id="login-section" class="panel">
-            <h2>Acceso.</h2>
+            <h2>Acceso S.E.E.S.</h2>
             <div class="form-group">
                 <label>Usuario:</label>
                 <input type="text" id="username" value="admin">
@@ -38,13 +38,9 @@
             <div id="tab-tasks" class="tab-content">
                 <h2 style="transform: skewX(-10deg);">Gestión de Misiones</h2>
                 
-                <div class="form-group" style="margin-bottom: 2rem;">
-                    <input type="text" id="search-input" placeholder="🔍 Filtrar misiones por título o descripción...">
-                </div>
-            
                 <form id="task-form" class="p3-form-grid">
                     <div class="form-row">
-                        <input type="text" id="task-title" placeholder="Título de la Misión" required>
+                        <input type="text" id="task-title" placeholder="Título de la Tarea" required>
                     </div>
                     <div class="form-row">
                         <textarea id="task-desc" class="p3-textarea" placeholder="Descripción detallada..." rows="3"></textarea>
@@ -63,41 +59,41 @@
                         </select>
                     </div>
                     <div class="form-row">
+                        <label style="font-size: 0.8rem; display: block; margin-bottom: 5px;">Fecha Límite:</label>
                         <input type="date" id="task-due-date">
                     </div>
                     <button type="submit" style="width: 100%; margin-top: 10px;">
                         <span>INVOCAR MISIÓN</span>
                     </button>
                 </form>
-            
-                <div class="table-section" style="margin-top: 2rem; overflow-x: auto;">
-                    <table class="p3-table">
-                        <thead>
-                            <tr>
-                                <th>Título</th>
-                                <th>Estado</th>
-                                <th>Prioridad</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="task-list-body">
-                            </tbody>
-                    </table>
-                </div>
-            </div>
-                <div class="table-section">
-                    <h3>Tareas Activas</h3>
-                    <div class="form-group" style="margin-bottom: 1rem;">
-                        <input type="text" id="search-input" placeholder="Buscar tarea por nombre o descripción...">
-                    </div>
-                    <ul id="task-list">
-                        </ul>
-                </div>
-            </div>
 
-            <div id="tab-projects" class="tab-content" style="display: none;">
+                <hr style="border: 1px solid var(--p3-mid-blue); margin: 2rem 0;">
+
+                <div class="table-section">
+                    <h3>Misiones Activas</h3>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <input type="text" id="search-input" placeholder="🔍 Filtrar por nombre o descripción...">
+                    </div>
+                    
+                    <div style="overflow-x: auto;">
+                        <table class="p3-table">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Estado</th>
+                                    <th>Prioridad</th>
+                                    <th>Vencimiento</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="task-list-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <div id="tab-projects" class="tab-content" style="display: none;">
                 <h2>Proyectos</h2>
-                <p>Modulo en construccion...</p>
+                <p>Módulo en construcción...</p>
             </div>
 
             <div id="tab-reports" class="tab-content" style="display: none;">
