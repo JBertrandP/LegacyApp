@@ -12,7 +12,7 @@ export class TaskService {
     createTask(data, username) {
         const id = Math.floor(Math.random() * 10000).toString();
         
-        // Pasamos los 10 parámetros exactos al constructor
+        
         const newTask = new Task(
             id,
             data.title,
@@ -30,7 +30,7 @@ export class TaskService {
         return newTask;
     }
 
-    // Una sola versión limpia de búsqueda
+    
     searchTasks(query) {
         const allTasks = this.repository.getAll();
         if (!query) return allTasks;
@@ -51,7 +51,7 @@ export class TaskService {
         const t = tasks.find(item => item.id === id);
         
         if (t) {
-            // Reconstruimos la entidad con los 10 parámetros para no perder datos
+            
             const task = new Task(
                 t.id, 
                 t.title, 
@@ -65,10 +65,10 @@ export class TaskService {
                 t.createdBy
             );
 
-            // Lógica de toggle: Si está completada pasa a Pendiente y viceversa
+            
             task.status = (task.status === 'Completada') ? 'Pendiente' : 'Completada';
             
-            // Actualizamos en el repositorio
+            
             this.repository.update(task);
         }
     }
