@@ -1,4 +1,3 @@
-// src/domain/Project.js
 export class Project {
     constructor(id, name, description, createdBy) {
         this.id = id;

@@ -3,156 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hexagonal Task Manager</title>
+    <title>Sistema de Gestión de Tareas - UTCH BIS</title>
     <link rel="stylesheet" href="src/adapters/ui/style.css">
+    <style>
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
     <div id="app-container">
-        <h1>Task Manager</h1>
+        <h1 style="text-align:center; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px;">
+            Task Manager <span style="color:var(--p3-cyan); font-size:0.6em;">Hexagonal Edition</span>
+        </h1>
         
-        <div id="login-section" class="panel">
-            <h2>Acceso al Sistema</h2>
+        <div id="loginPanel" class="panel" style="max-width: 400px; margin: 0 auto;">
+            <h2 style="border-bottom: 2px solid var(--p3-cyan); padding-bottom:10px;">Acceso al Sistema</h2>
             <div class="form-group">
                 <label>Usuario:</label>
-                <input type="text" id="username" value="admin">
+                <input type="text" id="username" value="admin" placeholder="Ingresa tu usuario">
             </div>
             <div class="form-group">
                 <label>Contraseña:</label>
-                <input type="password" id="password" value="admin123">
+                <input type="password" id="password" value="admin" placeholder="Ingresa tu contraseña">
             </div>
-            <button onclick="window.handleLogin()"><span>Entrar</span></button>
+            <button onclick="window.login()" style="width:100%; margin-top:1rem;">ENTRAR</button>
         </div>
 
-        <div id="app-section" class="panel" style="display:none;">
-            <div class="header" style="margin-bottom: 20px; border-bottom: 2px solid var(--p3-cyan); padding-bottom: 10px; display:flex; justify-content:space-between; align-items:center;">
-                <span>Usuario: <strong id="user-display" style="color: var(--p3-cyan);"></strong></span>
-                <button onclick="window.handleLogout()" class="delete-btn" style="font-size: 0.8rem;"><span>Salir</span></button>
+        <div id="mainPanel" class="panel" style="display:none; max-width: 1000px; margin: 0 auto;">
+            
+            <div class="header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #333; padding-bottom:10px;">
+                <span>Bienvenido, <strong id="currentUser" style="color:var(--p3-cyan); font-size:1.2rem;"></strong></span>
+                <button onclick="location.reload()" class="delete-btn" style="padding:5px 15px; font-size:0.8rem;">CERRAR SESIÓN</button>
             </div>
 
-            <div class="tabs" style="margin-bottom: 20px; display: flex; gap: 5px; flex-wrap: wrap;">
-                <button onclick="window.showTab('tasks')" class="tab-btn"><span>Tareas</span></button>
-                <button onclick="window.showTab('projects')" class="tab-btn"><span>Proyectos</span></button>
-                <button onclick="window.showTab('reports')" class="tab-btn"><span>Reportes</span></button>
+            <div class="tabs" style="display:flex; gap:10px; margin-bottom:20px; border-bottom: 2px solid var(--p3-mid-blue);">
+                <button class="tab-button" onclick="window.showTab('projects')">1. Proyectos</button>
+                <button class="tab-button" onclick="window.showTab('tasks')">2. Tareas</button>
+                <button class="tab-button" onclick="window.showTab('reports')">3. Reportes</button>
             </div>
 
-            <div id="tab-tasks" class="tab-content">
-                <h2>Gestión de Tareas</h2>
+            <div id="projectsTab" class="tab-content">
+                <h2><i class="p3-icon"></i> Gestión de Proyectos</h2>
+                <p style="color:#888; margin-bottom:15px; font-size:0.9rem;">Crea un proyecto aquí para poder asignarle tareas después.</p>
                 
-                <div class="form-section">
-                    <h3>Nueva Tarea</h3>
-                    <form id="task-form" class="p3-form-grid">
-                        <div class="form-group">
-                            <label>Título:</label>
-                            <input type="text" id="taskTitle" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Descripción:</label>
-                            <textarea id="taskDescription" class="p3-textarea" rows="3"></textarea>
-                        </div>
-                        <div class="form-row" style="display:flex; gap:10px; margin-bottom:10px;">
-                            <div style="flex:1">
-                                <label>Estado:</label>
-                                <select id="taskStatus">
-                                    <option value="Pendiente">Pendiente</option>
-                                    <option value="En Progreso">En Progreso</option>
-                                    <option value="Completada">Completada</option>
-                                </select>
-                            </div>
-                            <div style="flex:1">
-                                <label>Prioridad:</label>
-                                <select id="taskPriority">
-                                    <option value="Baja">Baja</option>
-                                    <option value="Media">Media</option>
-                                    <option value="Alta">Alta</option>
-                                    <option value="Crítica">Crítica</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Fecha Vencimiento:</label>
-                            <input type="date" id="taskDueDate">
-                        </div>
-                        <button type="submit" style="width: 100%; margin-top: 10px;">
-                            <span>Agregar Tarea</span>
-                        </button>
-                    </form>
-                </div>
-
-                <hr style="border: 1px solid var(--p3-mid-blue); margin: 2rem 0;">
-
-                <div class="table-section">
-                    <h3>Lista de Tareas</h3>
-                    <div class="form-group" style="margin-bottom: 1rem;">
-                        <input type="text" id="search-input" placeholder="🔍 Buscar por nombre o descripción...">
-                    </div>
-                    <div style="overflow-x: auto;">
-                        <table class="p3-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Título</th>
-                                    <th>Estado</th>
-                                    <th>Prioridad</th>
-                                    <th>Vencimiento</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tasksTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-projects" class="tab-content" style="display: none;">
-                <h2>Gestión de Proyectos</h2>
-                <form id="project-form" class="p3-form-grid">
+                <div class="form-section p3-form-grid">
                     <div class="form-group">
                         <label>Nombre del Proyecto:</label>
-                        <input type="text" id="project-name" required>
+                        <input type="text" id="projectName" placeholder="Ej: Migración Base de Datos">
                     </div>
                     <div class="form-group">
                         <label>Descripción:</label>
-                        <textarea id="project-desc" class="p3-textarea" rows="2"></textarea>
+                        <textarea id="projectDescription" rows="2" placeholder="Breve descripción..."></textarea>
                     </div>
-                    <button type="submit"><span>CREAR PROYECTO</span></button>
-                </form>
-            
-                <div class="table-section" style="margin-top:2rem;">
+                    <button onclick="window.addProject()" style="height: fit-content; align-self: flex-end;">CREAR PROYECTO</button>
+                </div>
+
+                <div class="table-section" style="margin-top:20px;">
+                    <h3>Proyectos Activos</h3>
                     <table class="p3-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Nombre</th>
-                                <th>Creador</th>
+                                <th>Descripción</th>
                             </tr>
                         </thead>
-                        <tbody id="project-list-body"></tbody>
+                        <tbody id="projectsTableBody"></tbody>
                     </table>
                 </div>
             </div>
-            
-            <div id="tab-reports" class="tab-content" style="display: none;">
-                <h2>Reportes & Análisis de Costos</h2>
+
+            <div id="tasksTab" class="tab-content" style="display:none;">
+                <h2>Gestión de Tareas</h2>
                 
-                <div class="stats-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:20px;">
-                    <div class="panel" style="background: rgba(0,234,255,0.1);">
-                        <h3>Resumen Operativo</h3>
-                        <p>Tareas Totales: <span id="total-tasks-stat" style="color:var(--p3-cyan)">0</span></p>
-                        <button onclick="window.exportData()">EXPORTAR CSV</button>
+                <div class="form-section">
+                    <h3>Nueva Tarea</h3>
+                    <div class="p3-form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Título:</label>
+                            <input type="text" id="taskTitle" placeholder="Nombre de la tarea">
+                        </div>
+                        
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Descripción:</label>
+                            <textarea id="taskDescription" rows="2"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Proyecto:</label>
+                            <select id="taskProject">
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Asignado a:</label>
+                            <select id="taskAssigned">
+                                <option value="admin">Admin</option>
+                                <option value="user">Usuario</option>
+                                <option value="dev">Desarrollador</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Estado:</label>
+                            <select id="taskStatus">
+                                <option>Pendiente</option>
+                                <option>En Progreso</option>
+                                <option>Completada</option>
+                                <option>Bloqueada</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Prioridad:</label>
+                            <select id="taskPriority">
+                                <option>Baja</option>
+                                <option>Media</option>
+                                <option>Alta</option>
+                                <option>Crítica</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Fecha Vencimiento:</label>
+                            <input type="date" id="taskDueDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Horas Estimadas:</label>
+                            <input type="number" id="taskHours" step="0.5" value="1">
+                        </div>
+
+                        <div class="button-group" style="grid-column: span 2; display:flex; gap:10px; margin-top:10px;">
+                            <button onclick="window.addTask()" style="flex:1;">AGREGAR TAREA</button>
+                            <button onclick="window.renderTasks()" class="secondary-btn" style="flex:0.5; background:#444;">ACTUALIZAR TABLA</button>
+                        </div>
                     </div>
-                    
-                    <div class="panel" style="background: rgba(255,0,85,0.1);">
-                        <h3>Análisis de Costos (TCO)</h3>
-                        <p>Infraestructura: <span style="color:#00ff00">$0.00 USD</span></p>
-                        <p style="font-size:0.8rem;">Justificación: Uso de Vercel (Free) + LocalStorage.</p>
-                    </div>
+                </div>
+
+                <div class="table-section" style="margin-top:20px;">
+                    <h3>Lista de Tareas</h3>
+                    <table id="tasksTable" class="p3-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Estado</th>
+                                <th>Prioridad</th>
+                                <th>Proyecto</th>
+                                <th>Asignado</th>
+                                <th>Vencimiento</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tasksTableBody"></tbody>
+                    </table>
                 </div>
             </div>
 
-            <div id="tab-reports" class="tab-content" style="display: none;">
-                <h2>Reportes</h2>
-                <p>Módulo en construcción...</p>
+            <div id="reportsTab" class="tab-content" style="display:none;">
+                <h2>Generación de Reportes</h2>
+                <div class="panel" style="background: rgba(0, 234, 255, 0.05); border: 1px solid var(--p3-cyan);">
+                    <h3>Exportación de Datos</h3>
+                    <p>Genera un archivo CSV con todas las tareas registradas en el sistema para auditoría externa.</p>
+                    
+                    <div style="margin-top: 20px;">
+                        <button onclick="window.exportCSV()" style="font-size: 1.1rem; padding: 15px 30px;">
+                            📥 DESCARGAR REPORTE CSV
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-area-section" style="margin-top:20px;">
+                    <label>Vista previa de datos:</label>
+                    <textarea id="reportsArea" rows="10" readonly style="width:100%; background:#111; color:#0f0; font-family:monospace; margin-top:5px;"></textarea>
+                </div>
             </div>
+
         </div>
     </div>
 

@@ -1,4 +1,3 @@
-// src/application/ProjectService.js
 import { Project } from "../domain/Project.js";
 
 export class ProjectService {
@@ -6,14 +5,12 @@ export class ProjectService {
         this.repository = repository;
     }
 
-    getAllProjects() {
-        return this.repository.getAll();
-    }
-
-    createProject(name, description, username) {
+    createProject(data, username) {
         const id = 'PRJ-' + Math.floor(Math.random() * 1000);
-        const newProject = new Project(id, name, description, username);
+        const newProject = new Project(id, data.name, data.description, username);
         this.repository.save(newProject);
         return newProject;
     }
+
+    getAll() { return this.repository.getAll(); }
 }
